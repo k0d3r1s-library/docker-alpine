@@ -6,7 +6,7 @@ on:
         - cron: '0 * * * *'
 
 jobs:
-    docker:
+    docker-alpine:
         runs-on: self-hosted
         steps:
             - 
@@ -25,10 +25,19 @@ jobs:
                     username: ${{ secrets.DOCKERHUB_USERNAME }}
                     password: ${{ secrets.DOCKERHUB_TOKEN }}
             - 
-                name: Build and push artifact
+                name: Build and push alpine:unstable
                 uses: docker/build-push-action@v3
                 with:
                     context: .
                     push: true
                     tags: k0d3r1s/alpine:unstable
                     platforms: linux/amd64,linux/arm64
+            -
+                name: Build and push alpine:unstable-curl
+                uses: docker/build-push-action@v3
+                with:
+                    context: .
+                    file: Dockerfile.curl
+                    push: true
+                    tags: k0d3r1s/alpine:unstable-curl
+                    platforms: linux/amd64

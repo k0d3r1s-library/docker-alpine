@@ -1,0 +1,48 @@
+FROM    k0d3r1s/alpine:unstable as builder
+
+USER    root
+
+ENV     MAKEFLAGS=-j"$(expr $(nproc) / 3)"
+
+WORKDIR /home/vairogs
+
+RUN     \
+        set -eux \
+&&      apk upgrade --no-cache --update --no-progress -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+&&      apk add --update --no-cache --no-progress --upgrade -X http://dl-cdn.alpinelinux.org/alpine/edge/testing git cmake make automake autoconf libtool bsd-compat-headers linux-headers zstd-dev \
+        zstd binutils gcc g++ rtmpdump-dev rtmpdump nghttp2-dev nghttp2 nghttp3-dev nghttp3 libpsl-dev libpsl libgsasl-dev libgsasl libpsl-dev libpsl brotli-dev brotli brotli-libs openssl-dev \
+        openssl libidn2-dev libidn2 \
+&&      git clone --single-branch --depth 1 --recursive https://github.com/nibanks/msh3 \
+&&      cd msh3 \
+&&      mkdir build \
+&&      cd build \
+&&      cmake -G 'Unix Makefiles' -DCMAKE_BUILD_TYPE=RelWithDebInfo .. \
+&&      cmake --build . \
+&&      cmake --install . \
+&&      cd ../../ \
+&&      git clone --single-branch https://github.com/curl/curl \
+&&      cd curl \
+&&      autoreconf -fi \
+&&      ./configure --with-openssl --with-zlib --with-brotli --with-gssapi --enable-ipv6 --with-libidn2 --enable-sspi --with-librtmp --with-nghttp2 --with-msh3=/usr/local --enable-websockets --with-zstd \
+&&      make -j "$(expr $(nproc) / 3)" \
+&&      make install \
+&&      apk del --purge --no-cache git cmake make automake autoconf libtool bsd-compat-headers linux-headers binutils gcc g++ rtmpdump-dev nghttp2-dev nghttp3-dev libpsl-dev libgsasl-dev \
+        libpsl-dev brotli-dev openssl-dev libidn2-dev \
+&&      rm -rf \
+            /home/vairogs/curl \
+            /home/vairogs/msh3 \
+            /tmp/* \
+            /var/cache/*
+
+FROM    scratch
+
+COPY    --from=builder / /
+
+LABEL   maintainer="support+docker@vairogs.com"
+ENV     container=docker
+
+SHELL   ["/bin/bash", "-o", "pipefail", "-c"]
+
+USER    vairogs
+
+CMD     ["/bin/bash"]
