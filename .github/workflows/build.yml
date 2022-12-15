@@ -31,9 +31,10 @@ jobs:
                     context: .
                     push: true
                     tags: k0d3r1s/alpine:unstable
-                    platforms: linux/amd64,linux/arm64
+                    platforms: linux/amd64
     docker-alpine-curl:
         runs-on: self-hosted
+        needs: docker-alpine
         steps:
             - 
                 name: Checkout
