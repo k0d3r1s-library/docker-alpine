@@ -1,0 +1,6 @@
+# action.yml
+name: 'Vairogs split action (alpine)'
+description: 'Split monorepo into multiple repositories'
+runs:
+    using: 'docker'
+    image: 'Dockerfile.action'

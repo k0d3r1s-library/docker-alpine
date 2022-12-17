@@ -1,0 +1,25 @@
+FROM    k0d3r1s/alpine:unstable as builder
+
+USER    root
+
+RUN     \
+        set -eux \
+&&      apk add --update --no-cache --no-progress --upgrade -X http://dl-cdn.alpinelinux.org/alpine/edge/testing git git-subtree jq \
+&&      rm -rf /var/cache/*
+
+COPY    action_entrypoint.sh /action_entrypoint.sh
+
+FROM    scratch
+
+COPY    --from=builder / /
+
+LABEL   maintainer="support+docker@vairogs.com"
+ENV     container=docker
+
+SHELL   ["/bin/bash", "-o", "pipefail", "-c"]
+
+WORKDIR /tmp
+
+USER    vairogs
+
+ENTRYPOINT ["/action_entrypoint.sh"]
