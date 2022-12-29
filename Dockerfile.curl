@@ -32,7 +32,9 @@ RUN     \
             /home/vairogs/curl \
             /home/vairogs/msh3 \
             /tmp/* \
-            /var/cache/*
+            /var/cache/* \
+            /usr/share/man \
+            /usr/local/share/man
 
 FROM    scratch
 
