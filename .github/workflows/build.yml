@@ -86,5 +86,5 @@ jobs:
                     context: .
                     file: Dockerfile.action
                     push: true
-                    tags: k0d3r1s/action-alpine:split
+                    tags: k0d3r1s/alpine:action-split
                     platforms: linux/amd64
