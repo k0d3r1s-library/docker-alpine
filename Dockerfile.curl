@@ -12,7 +12,7 @@ RUN     \
 &&      apk add --update --no-cache --no-progress --upgrade -X http://dl-cdn.alpinelinux.org/alpine/edge/testing git cmake make automake autoconf libtool bsd-compat-headers linux-headers zstd-dev \
         zstd binutils gcc g++ rtmpdump-dev rtmpdump nghttp2-dev nghttp2 nghttp3-dev nghttp3 libpsl-dev libpsl libgsasl-dev libgsasl libpsl-dev libpsl brotli-dev brotli brotli-libs openssl-dev \
         openssl libidn2-dev libidn2 \
-&&      git clone --single-branch -b v0.5.0 --depth 1 --recursive https://github.com/nibanks/msh3 \
+&&      git clone --single-branch -b v0.6.0 --depth 1 --recursive https://github.com/nibanks/msh3 \
 &&      cd msh3 \
 &&      mkdir build \
 &&      cd build \
