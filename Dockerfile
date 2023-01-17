@@ -9,8 +9,6 @@ RUN     \
 &&      update-ca-certificates \
 &&      echo 'alias ll="ls -lah"' >> /home/vairogs/.bashrc \
 &&      echo 'alias vim="vi"' >> /home/vairogs/.bashrc \
-&&      echo 'alias ll="ls -lah"' >> /root/.bashrc \
-&&      echo 'alias vim="vi"' >> /root/.bashrc \
 &&      rm -rf \
             /var/apk/* \
             /tmp/* \
